@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ridvankabak.blockchainapp.Adapter.CoinAdapter;
 import com.ridvankabak.blockchainapp.Model.Coin;
 import com.ridvankabak.blockchainapp.R;
+
+import net.bohush.geometricprogressview.GeometricProgressView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     private MainActivityContract.Presenter mPresenter;
 
     private TextView textViewZaman;
+    private GeometricProgressView progressView;
     private RecyclerView rv;
     private CoinAdapter adapter;
     private ArrayList<Coin> coins;
@@ -49,6 +53,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     @Override
+    public void showProgress() {
+        progressView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressView.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onResponseFailure(Throwable t) {
         Log.e(TAG,t.getLocalizedMessage());
     }
@@ -69,12 +83,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     private void initUi() {
+        textViewZaman = findViewById(R.id.textViewZaman);
+        time();
+        progressView = findViewById(R.id.progressView);
         rv = findViewById(R.id.rv);
         coins = new ArrayList<>();
         adapter = new CoinAdapter(this,coins);
-
-        textViewZaman = findViewById(R.id.textViewZaman);
-        time();
 
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));

@@ -15,20 +15,31 @@ public class MainActivityPresenter implements MainActivityContract.Presenter, Ma
     }
 
     @Override
-    public void requestFromDataServer() { mModel.getAllCoins(this,0); }
+    public void requestFromDataServer() {
+        if (mView != null) {
+            mView.showProgress();
+        }
+        mModel.getAllCoins(this,0); }
 
     @Override
     public void getMoreData(int offset) {
+
         mModel.getAllCoins(this,offset);
     }
 
     @Override
     public void onFinished(List<Coin> coins) {
         mView.setDataToRecyclerView(coins);
+        if (mView != null) {
+            mView.hideProgress();
+        }
     }
 
     @Override
     public void onFailure(Throwable t) {
         mView.onResponseFailure(t);
+        if (mView != null) {
+            mView.hideProgress();
+        }
     }
 }

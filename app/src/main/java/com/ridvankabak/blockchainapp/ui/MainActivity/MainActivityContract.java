@@ -11,6 +11,10 @@ public interface MainActivityContract {
 
         void setDataToRecyclerView(List<Coin> coins);
 
+        void showProgress();
+
+        void hideProgress();
+
         void onResponseFailure(Throwable t);
     }
 
